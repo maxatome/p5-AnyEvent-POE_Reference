@@ -1,0 +1,7 @@
+Changes
+Makefile.PL
+MANIFEST
+README
+t/AnyEvent-POE_Reference.t
+t/POE.t
+lib/AnyEvent/POE_Reference.pm
