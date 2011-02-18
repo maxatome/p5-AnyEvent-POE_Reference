@@ -118,10 +118,12 @@ my($fh1, $fh2) = portable_socketpair;
 
 @handle = (AnyEvent::Handle->new(
 	       fh => $fh1,
-	       on_error => sub { $condvar->send }),
+	       timeout => 5,
+	       on_error => sub { fail("IO error"); $condvar->send }),
 	   AnyEvent::Handle->new(
 	       fh => $fh2,
-	       on_error => sub { $condvar->send }));
+	       timeout => 5,
+	       on_error => sub { fail("IO error"); $condvar->send }));
 
 $handle[0]->push_read(poe_reference => next_serializer(0), read_loop(0));
 $handle[1]->push_write(poe_reference => next_serializer(1), $last_ref);

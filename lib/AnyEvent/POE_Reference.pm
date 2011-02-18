@@ -17,6 +17,8 @@ sub THAW ()	{ 1 }
 my %SERIALIZERS;
 my $ZLIB;
 
+our $SERIALIZED_MAX_SIZE = 1_000_000; # bytes
+
 sub new
 {
     my $class = shift;
@@ -121,9 +123,23 @@ sub new
 
 	    return sub
 	    {
-		if ($$rbuf =~ /^(\d+)\0/
-		    and length($$rbuf) >= length($1) + 1 + $1)
+		if ($$rbuf =~ /^(\d+)(\D)/)
 		{
+		    if ($1 > $AnyEvent::POE_Reference::SERIALIZED_MAX_SIZE)
+		    {
+			$self->_error(Errno::E2BIG);
+			return 0;
+		    }
+
+		    # \0 not found
+		    if ($2 ne "\0")
+		    {
+			$self->_error(Errno::EBADMSG);
+			return 0;
+		    }
+
+		    return 0 if length($$rbuf) < length($1) + 1 + $1;
+
 		    my $buf = substr($$rbuf, 0, length($1) + 1 + $1, '');
 
 		    unless (ref $serializer)
@@ -142,10 +158,17 @@ sub new
 		    }
 		    else
 		    {
-			$self->_error (Errno::EBADMSG);
+			$self->_error(Errno::EBADMSG);
 		    }
 		}
+		# Not a number...
 		elsif ($$rbuf =~ /^\D/)
+		{
+		    $self->_error(Errno::EBADMSG);
+		}
+		# Too much numbers...
+		elsif (length($$rbuf)
+		       > length($AnyEvent::POE_Reference::SERIALIZED_MAX_SIZE))
 		{
 		    $self->_error(Errno::EBADMSG);
 		}
@@ -266,6 +289,16 @@ Note that, as in the L<POE::Filter::Reference> constructor, the
 serializer and the compression flag are optional.
 
 If the serializer can not be found, L<AnyEvent::POE_Reference> croaks.
+
+The maximum size of serialized (and possibly compressed) data is
+specified by the variable
+C<$AnyEvent::POE_Reference::SERIALIZED_MAX_SIZE>. It defaults to
+1_000_000 bytes. In case received data seems to contain more than this
+number of bytes, an error C<Errno::E2BIG> is given to the error
+handler.
+
+In all other error cases (like wrong serializer for example), an error
+C<Errno::EBADMSG> is given to the error handler.
 
 
 =head1 SERIALIZER FORMAT

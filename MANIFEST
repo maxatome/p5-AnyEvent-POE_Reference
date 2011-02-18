@@ -4,4 +4,5 @@ MANIFEST
 README
 t/AnyEvent-POE_Reference.t
 t/POE.t
+t/errors.t
 lib/AnyEvent/POE_Reference.pm
