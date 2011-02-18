@@ -9,7 +9,7 @@ use AnyEvent::Handle;
 
 use Carp;
 
-our $VERSION = '0.01';
+our $VERSION = '0.9';
 
 sub FREEZE ()	{ 0 }
 sub THAW ()	{ 1 }
@@ -309,6 +309,13 @@ human form followed by a C<NUL> byte then by the data. Like:
     12\0xxxxxxxxxxxx
 
 See L<POE::Filter::Reference> for more details.
+
+
+=head1 DEVELOPMENT
+
+=head2 Repository
+
+    http://github.com/maxatome/p5-AnyEvent-POE_Reference
 
 
 =head1 SEE ALSO
