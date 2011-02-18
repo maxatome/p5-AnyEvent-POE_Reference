@@ -265,7 +265,7 @@ identical objects...
 Note that, as in the L<POE::Filter::Reference> constructor, the
 serializer and the compression flag are optional.
 
-If the serializer does not exists, it croaks.
+If the serializer can not be found, L<AnyEvent::POE_Reference> croaks.
 
 
 =head1 SERIALIZER FORMAT
@@ -280,6 +280,9 @@ See L<POE::Filter::Reference> for more details.
 
 =head1 SEE ALSO
 
+Test F<t/POE.t> gives an example of an L<AnyEvent> client interracting
+with a L<POE> server.
+
 L<AnyEvent>, L<AnyEvent::Handle>, L<POE>, L<POE::Filter::Reference>.
 
 =head1 AUTHOR
@@ -288,11 +291,11 @@ Maxime Soule, E<lt>btik-cpan@scoubidou.comE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2011 by Maxime Soule'
+Copyright 2011 by Ijenko.
+
+http://www.ijenko.com
 
 This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself, either Perl version 5.12.3 or,
-at your option, any later version of Perl 5 you may have available.
-
+it under the same terms as Perl itself.
 
 =cut
