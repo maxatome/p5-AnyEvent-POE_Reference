@@ -1,5 +1,8 @@
 Revision history for Perl extension AnyEvent::POE_Reference.
 
+0.10 Sat Feb 19 13:28:40 CET 2011
+     - Bogus test corrected
+
 0.9  Fri Feb 18 10:17:59 CET 2011
      - Tests are done
      - No remaining bugs

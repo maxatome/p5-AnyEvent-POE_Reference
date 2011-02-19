@@ -44,7 +44,7 @@ my @serializers = (
     );
 
 SKIP: {
-    skip 'YAML not installed', 4 unless eval { require YAML };
+    skip 'YAML not installed', 5 unless eval { require YAML };
 
     push(@serializers,
 	 AnyEvent::POE_Reference->new('YAML'),
@@ -55,14 +55,14 @@ SKIP: {
 };
 
 SKIP: {
-    skip 'FreezeThaw not installed', 4 unless eval { require FreezeThaw };
+    skip 'FreezeThaw not installed', 5 unless eval { require FreezeThaw };
 
     push(@serializers,
-	 AnyEvent::POE_Reference->new('YAML'),
-	 AnyEvent::POE_Reference->new('YAML', 1),
-	 [ 'YAML' ],
-	 [ 'YAML', 0 ],
-	 [ 'YAML', 1 ]);
+	 AnyEvent::POE_Reference->new('FreezeThaw'),
+	 AnyEvent::POE_Reference->new('FreezeThaw', 1),
+	 [ 'FreezeThaw' ],
+	 [ 'FreezeThaw', 0 ],
+	 [ 'FreezeThaw', 1 ]);
 };
 
 my @ser = (\@serializers, [ @serializers ]);
