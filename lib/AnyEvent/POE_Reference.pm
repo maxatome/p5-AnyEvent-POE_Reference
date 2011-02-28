@@ -9,7 +9,7 @@ use AnyEvent::Handle;
 
 use Carp;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 sub FREEZE ()	{ 0 }
 sub THAW ()	{ 1 }
