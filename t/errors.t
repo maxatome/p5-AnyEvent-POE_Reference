@@ -54,7 +54,17 @@ set_and_run_loop("Badly formatted, not a number", [ "aaaaaaaa" ]);
 
 set_and_run_loop("Badly formatted, \\0 not found", [ "123aaa" ]);
 
-set_and_run_loop("Wrong serializer", [ poe_reference => 'YAML', [ 1, 2, 3 ] ]);
+SKIP: {
+    if (eval { require YAML })
+    {
+	set_and_run_loop("Wrong serializer",
+			 [ poe_reference => 'YAML', [ 1, 2, 3 ] ]);
+    }
+    else
+    {
+	skip 'YAML not installed', 1;
+    }
+};
 
 set_and_run_loop("No compression", [ poe_reference => undef, 1, [ 1, 2, 3 ] ]);
 
