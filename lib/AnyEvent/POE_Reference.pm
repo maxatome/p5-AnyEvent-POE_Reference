@@ -148,7 +148,8 @@ sub new
 				$serializer, $compress);
 		    }
 
-		    if (my $ref = eval {
+		    # FreezeThaw returns in list context...
+		    if (my($ref) = eval {
 			$serializer->[AnyEvent::POE_Reference::THAW]->(
 			    substr($buf, length($1) + 1)) })
 		    {
